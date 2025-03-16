@@ -1,6 +1,4 @@
 import { useNavigation } from '@react-navigation/native';
-import { observer } from 'mobx-react-lite';
-import React from 'react';
 import Image from 'react-native-fast-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import FontistoIcon from 'react-native-vector-icons/Fontisto';
@@ -22,7 +20,7 @@ import { SelectScreenNavigationProp } from '@/@types/navigation';
 import Divider from '@/components/Divider';
 import Header from '@/components/Header';
 
-export const SelectScreen = observer(function () {
+export const SelectScreen = function () {
   const navigation = useNavigation<SelectScreenNavigationProp>();
   const insets = useSafeAreaInsets();
 
@@ -112,4 +110,4 @@ export const SelectScreen = observer(function () {
       </MiddleContainer>
     </OuterContainer>
   );
-});
+};

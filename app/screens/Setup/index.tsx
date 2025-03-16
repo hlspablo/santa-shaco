@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigation } from '@react-navigation/native';
-import { observer } from 'mobx-react-lite';
 import { useForm, Controller } from 'react-hook-form';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import { Masks } from 'react-native-mask-input';
@@ -13,7 +12,7 @@ import { SetupScreenNavigationProp } from '@/@types/navigation';
 import { ActionButton } from '@/components/Buttons/Action/ActionButton';
 import { NormalInput } from '@/components/Inputs';
 import { MoneyInput } from '@/components/Inputs/MoneyInput';
-import { useStores } from '@/models';
+import { useSetup } from '@/store/hooks';
 
 type PhoneNumberForm = {
   ownerName: string;
@@ -80,8 +79,8 @@ const agencyMask = [/\d/, /\d/, /\d/, /\d/];
 const accountMask = [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/];
 const cardMask = [/\d/, /\d/, /\d/, /\d/];
 
-export const SetupScreen = observer(function () {
-  const { setup } = useStores();
+export const SetupScreen = function () {
+  const { setup } = useSetup();
   const navigation = useNavigation<SetupScreenNavigationProp>();
 
   const {
@@ -334,4 +333,4 @@ export const SetupScreen = observer(function () {
       </ButtonContainer>
     </KeyboardAvoidingView>
   );
-});
+};

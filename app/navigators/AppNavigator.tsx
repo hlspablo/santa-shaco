@@ -1,6 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ScreenProvider } from 'responsive-native';
@@ -29,7 +28,7 @@ const InStack = createStackNavigator<RootStackParamList>();
 
 type NavigationProps = Partial<React.ComponentProps<typeof NavigationContainer>>;
 
-export const AppNavigator = observer(function AppNavigator(props: NavigationProps) {
+export const AppNavigator = function AppNavigator(props: NavigationProps) {
   return (
     <SafeAreaProvider>
       <ScreenProvider baseFontSize={16}>
@@ -61,4 +60,4 @@ export const AppNavigator = observer(function AppNavigator(props: NavigationProp
       </ScreenProvider>
     </SafeAreaProvider>
   );
-});
+};

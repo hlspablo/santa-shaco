@@ -1,8 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import * as Print from 'expo-print';
 import { shareAsync } from 'expo-sharing';
-import { observer } from 'mobx-react-lite';
-import React from 'react';
 import { Pressable } from 'react-native';
 import Image from 'react-native-fast-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -30,10 +28,10 @@ import { SuccessScreenNavigationProp } from '@/@types/navigation';
 import { ShareButton } from '@/components/Buttons/Share/ActionButton';
 import Divider from '@/components/Divider';
 import Header from '@/components/Header';
-import { useStores } from '@/models';
+import { useSetup } from '@/store/hooks';
 import { addDashBeforeLast, detectAndMask, formatCurrency, maskCPF } from '@/utils/format';
 
-export const SuccessScreen = observer(function () {
+export const SuccessScreen = function () {
   const navigation = useNavigation<SuccessScreenNavigationProp>();
   const insets = useSafeAreaInsets();
 
@@ -53,7 +51,7 @@ export const SuccessScreen = observer(function () {
       clientPix,
       ownerName,
     },
-  } = useStores();
+  } = useSetup();
 
   const html = `
     <html>
@@ -322,4 +320,4 @@ export const SuccessScreen = observer(function () {
       <LoadingComponent />
     </>
   );
-});
+};

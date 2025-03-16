@@ -1,6 +1,4 @@
 import { useNavigation } from '@react-navigation/native';
-import { observer } from 'mobx-react-lite';
-import React from 'react';
 import Image from 'react-native-fast-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -29,7 +27,7 @@ import { ConfirmScreenNavigationProp } from '@/@types/navigation';
 import { ActionButton } from '@/components/Buttons/Action/ActionButton';
 import Divider from '@/components/Divider';
 import Header from '@/components/Header';
-import { useStores } from '@/models';
+import { useSetup } from '@/store/hooks';
 import {
   addDashBeforeLast,
   detectAndMask,
@@ -38,7 +36,7 @@ import {
   maskCPF,
 } from '@/utils/format';
 
-export const ConfirmScreen = observer(function () {
+export const ConfirmScreen = function () {
   const navigation = useNavigation<ConfirmScreenNavigationProp>();
   const insets = useSafeAreaInsets();
   const {
@@ -52,7 +50,7 @@ export const ConfirmScreen = observer(function () {
       clientPix,
       withdraw,
     },
-  } = useStores();
+  } = useSetup();
 
   function confirmTransaction() {
     withdraw();
@@ -132,4 +130,4 @@ export const ConfirmScreen = observer(function () {
       <LoadingComponent />
     </>
   );
-});
+};

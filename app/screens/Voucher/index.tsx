@@ -1,4 +1,3 @@
-import { observer } from 'mobx-react-lite';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
@@ -20,10 +19,10 @@ import { BaseText2 } from '../Value/styles';
 
 import Divider from '@/components/Divider';
 import { HeaderVoucher } from '@/components/HeaderVoucher';
-import { useStores } from '@/models';
+import { useSetup } from '@/store/hooks';
 import { addDashBeforeLast, detectAndMask, formatCurrency, maskCPF } from '@/utils/format';
 
-export const VoucherScreen = observer(function () {
+export const VoucherScreen = function () {
   const insets = useSafeAreaInsets();
   const {
     setup: {
@@ -41,7 +40,7 @@ export const VoucherScreen = observer(function () {
       ownerCPF,
       ownerBank,
     },
-  } = useStores();
+  } = useSetup();
 
   return (
     <OuterContainer bounces={false}>
@@ -129,4 +128,4 @@ export const VoucherScreen = observer(function () {
       </ButtonContainer>
     </OuterContainer>
   );
-});
+};

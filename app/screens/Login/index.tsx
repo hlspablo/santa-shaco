@@ -1,5 +1,4 @@
 import { useNavigation } from '@react-navigation/native';
-import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Pressable } from 'react-native';
 import Image from 'react-native-fast-image';
@@ -11,16 +10,16 @@ import { LoginScreenNavigationProp } from '@/@types/navigation';
 import { ActionButton } from '@/components/Buttons/Action/ActionButton';
 import { SantaInputCPFObfuscated } from '@/components/SantaInput-Cpf-Obs';
 import { SantaInputPassword } from '@/components/SantaInput-Password';
-import { useStores } from '@/models';
+import { useSetup } from '@/store/hooks';
 
-export const LoginScreen = observer(function () {
+export const LoginScreen = function () {
   const navigation = useNavigation<LoginScreenNavigationProp>();
   const [password, setPassword] = React.useState('');
   const insets = useSafeAreaInsets();
 
   const {
     setup: { ownerCPF },
-  } = useStores();
+  } = useSetup();
 
   function goToMain() {
     navigation.navigate('MainScreen');
@@ -78,4 +77,4 @@ export const LoginScreen = observer(function () {
       </Container>
     </>
   );
-});
+};

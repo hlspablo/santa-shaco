@@ -5,7 +5,6 @@ import {
 } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Pressable, StyleSheet, View, Text } from 'react-native';
 import * as Animatable from 'react-native-animatable';
@@ -30,7 +29,7 @@ import { LoadingComponent } from '../Loading';
 
 import { MainScreenNavigationProp } from '@/@types/navigation';
 import { CollapsibleRectangle } from '@/components/Collapsible';
-import { useStores } from '@/models';
+import { useSetup } from '@/store/hooks';
 import { addDashBeforeLast, getFirstName } from '@/utils/format';
 
 // Define type for tab navigator
@@ -44,14 +43,14 @@ type TabParamList = {
 const Tab = createBottomTabNavigator<TabParamList>();
 
 // Main content component (what was previously MainScreen)
-const HomeScreen = observer(function HomeScreen() {
+const HomeScreen = function HomeScreen() {
   const [isOpen, setIsOpen] = React.useState(false);
   const [shouldAnimate, setShouldAnimate] = React.useState(false);
   const navigation = useNavigation<MainScreenNavigationProp>();
   const insets = useSafeAreaInsets();
   const {
     setup: { ownerAgency, ownerAccount, ownerName, ownerCard, balance },
-  } = useStores();
+  } = useSetup();
 
   const toggleRectangle = () => {
     setShouldAnimate(true);
@@ -182,7 +181,7 @@ const HomeScreen = observer(function HomeScreen() {
       <LoadingComponent />
     </>
   );
-});
+};
 
 // Placeholder screens for other tabs
 const PixScreen = () => (
@@ -204,7 +203,7 @@ const MenuScreen = () => (
 );
 
 // Main component with Tab Navigation
-export const MainScreen = observer(function () {
+export const MainScreen = function () {
   return (
     <Tab.Navigator
       screenOptions={({ route }): BottomTabNavigationOptions => ({
@@ -243,7 +242,7 @@ export const MainScreen = observer(function () {
       <Tab.Screen name="Menu" component={MenuScreen} />
     </Tab.Navigator>
   );
-});
+};
 
 const styles = StyleSheet.create({
   shadow: {
