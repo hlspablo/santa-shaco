@@ -26,6 +26,7 @@ import {
   TopHeader,
 } from './styles';
 import { LoadingComponent } from '../Loading';
+import { PixTransferScreen } from '../PixTransfer';
 
 import { MainScreenNavigationProp } from '@/@types/navigation';
 import { CollapsibleRectangle } from '@/components/Collapsible';
@@ -184,11 +185,7 @@ const HomeScreen = function HomeScreen() {
 };
 
 // Placeholder screens for other tabs
-const PixScreen = () => (
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text>Pix Screen</Text>
-  </View>
-);
+const PixScreen = () => <PixTransferScreen />;
 
 const AtendimentoScreen = () => (
   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
