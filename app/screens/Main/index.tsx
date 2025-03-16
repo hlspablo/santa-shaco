@@ -1,8 +1,13 @@
+import { Ionicons } from '@expo/vector-icons';
+import {
+  createBottomTabNavigator,
+  BottomTabNavigationOptions,
+} from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet, View, Text } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Image from 'react-native-fast-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -28,7 +33,18 @@ import { CollapsibleRectangle } from '@/components/Collapsible';
 import { useStores } from '@/models';
 import { addDashBeforeLast, getFirstName } from '@/utils/format';
 
-export const MainScreen = observer(function () {
+// Define type for tab navigator
+type TabParamList = {
+  Home: undefined;
+  Pix: undefined;
+  Atendimento: undefined;
+  Menu: undefined;
+};
+
+const Tab = createBottomTabNavigator<TabParamList>();
+
+// Main content component (what was previously MainScreen)
+const HomeScreen = observer(function HomeScreen() {
   const [isOpen, setIsOpen] = React.useState(false);
   const [shouldAnimate, setShouldAnimate] = React.useState(false);
   const navigation = useNavigation<MainScreenNavigationProp>();
@@ -76,7 +92,7 @@ export const MainScreen = observer(function () {
                   from: { height: isOpen ? 65 : 225 },
                   to: { height: isOpen ? 225 : 65 },
                 }
-              : null
+              : undefined
           }
           duration={350}>
           <CollapsibleRectangle
@@ -165,6 +181,67 @@ export const MainScreen = observer(function () {
       </Container>
       <LoadingComponent />
     </>
+  );
+});
+
+// Placeholder screens for other tabs
+const PixScreen = () => (
+  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <Text>Pix Screen</Text>
+  </View>
+);
+
+const AtendimentoScreen = () => (
+  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <Text>Atendimento Screen</Text>
+  </View>
+);
+
+const MenuScreen = () => (
+  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <Text>Menu Screen</Text>
+  </View>
+);
+
+// Main component with Tab Navigation
+export const MainScreen = observer(function () {
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }): BottomTabNavigationOptions => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName: keyof typeof Ionicons.glyphMap;
+
+          if (route.name === 'Home') {
+            iconName = focused ? 'home' : 'home-outline';
+          } else if (route.name === 'Pix') {
+            iconName = focused ? 'flash' : 'flash-outline';
+          } else if (route.name === 'Atendimento') {
+            iconName = focused ? 'chatbubbles' : 'chatbubbles-outline';
+          } else if (route.name === 'Menu') {
+            iconName = focused ? 'menu' : 'menu-outline';
+          } else {
+            iconName = 'help-circle';
+          }
+
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: '#D74141',
+        tabBarInactiveTintColor: 'gray',
+        headerShown: false,
+        tabBarStyle: {
+          height: 60,
+          paddingTop: 5,
+        },
+        tabBarLabelStyle: {
+          paddingBottom: 5,
+          fontSize: 12,
+        },
+      })}>
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Pix" component={PixScreen} />
+      <Tab.Screen name="Atendimento" component={AtendimentoScreen} />
+      <Tab.Screen name="Menu" component={MenuScreen} />
+    </Tab.Navigator>
   );
 });
 
