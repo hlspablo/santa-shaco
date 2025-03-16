@@ -2,7 +2,7 @@ import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
 
 export const TopHeader = styled.View<{ height: number }>`
-  height: ${(props) => props.height}px;
+  height: ${(props: { height: number }) => props.height}px;
   background-color: #ba261a;
 `;
 
