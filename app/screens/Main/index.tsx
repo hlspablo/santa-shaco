@@ -211,11 +211,29 @@ export const MainScreen = function () {
           let iconName: keyof typeof Ionicons.glyphMap;
 
           if (route.name === 'Home') {
-            iconName = focused ? 'home' : 'home-outline';
+            return (
+              <Image
+                resizeMode={Image.resizeMode.contain}
+                source={require('@assets/icons/home.png')}
+                style={{ width: 30, height: 30 }}
+              />
+            );
           } else if (route.name === 'Pix') {
-            iconName = focused ? 'flash' : 'flash-outline';
+            return (
+              <Image
+                resizeMode={Image.resizeMode.contain}
+                source={require('@assets/icons/pix.png')}
+                style={{ width: 30, height: 30 }}
+              />
+            );
           } else if (route.name === 'Atendimento') {
-            iconName = focused ? 'chatbubbles' : 'chatbubbles-outline';
+            return (
+              <Image
+                resizeMode={Image.resizeMode.contain}
+                source={require('@assets/icons/atend.png')}
+                style={{ width: 30, height: 30 }}
+              />
+            );
           } else if (route.name === 'Menu') {
             iconName = focused ? 'menu' : 'menu-outline';
           } else {

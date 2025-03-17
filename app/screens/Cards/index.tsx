@@ -1,3 +1,4 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Image from 'react-native-fast-image';
@@ -53,7 +54,7 @@ export const CardsScreen = () => {
         <TouchableOpacity style={styles.accordion} onPress={() => setLoansExpanded(!loansExpanded)}>
           <View style={styles.accordionHeader}>
             <View style={styles.iconContainer}>
-              <FontAwesome5 name="money-bill-wave" size={20} color="#333" />
+              <MaterialCommunityIcons name="hand-coin-outline" size={20} color="#333" />
             </View>
             <Text style={styles.accordionTitle}>Empréstimos</Text>
           </View>
