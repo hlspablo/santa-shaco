@@ -13,7 +13,7 @@ export const OuterContainer = styled.ScrollView`
 
 export const BaseText = styled.Text`
   font-size: 22px;
-  font-weight: bold;
+  margin-bottom: 12px;
   color: #000;
   padding: 15px 15px 10px 15px;
 `;
@@ -26,7 +26,7 @@ export const InputContainer = styled.View`
   height: 56px;
   flex-direction: row;
   align-items: center;
-  overflow: hidden;
+  overflow: visible;
 `;
 
 export const Label = styled.Text`

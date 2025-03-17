@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useRef, useState } from 'react';
-import { FlatList, Pressable, Text, TextInput, View } from 'react-native';
+import { Pressable, Text, TextInput, View } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AntIcon from 'react-native-vector-icons/AntDesign';
@@ -30,15 +30,14 @@ import {
   TopHeader,
 } from './styles';
 
-import { ActionButton } from '@/components/Buttons/Action/ActionButton';
 import Header from '@/components/Header';
 import { useSetup } from '@/store/hooks';
 
 // Mock contacts data
 const mockContacts = [
-  { id: '1', name: 'Caio', initials: 'CF' },
-  { id: '2', name: 'Pablo', initials: 'PS' },
-  { id: '3', name: 'Jonathan', initials: 'JS' },
+  { id: '1', name: 'Rita', initials: 'RT' },
+  { id: '2', name: 'Maria', initials: 'MA' },
+  { id: '3', name: 'Ricardo', initials: 'RC' },
   { id: '4', name: 'Selma', initials: 'SR' },
   { id: '5', name: 'Yan', initials: 'YS' },
   { id: '6', name: 'Pedro', initials: 'PS' },
@@ -51,14 +50,14 @@ export interface PixTransferProps {
 
 export const PixTransferScreen: React.FC<PixTransferProps> = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const labelRef = useRef(null);
-  const textInputRef = useRef(null);
+  const labelRef = useRef<Animatable.Text>(null);
+  const textInputRef = useRef<TextInput>(null);
   const { setup } = useSetup();
   const navigation = useNavigation<any>();
   const insets = useSafeAreaInsets();
 
   const handleFocus = () => {
-    labelRef.current?.transitionTo({ translateY: -20, color: '#7b4e4e', fontSize: 15 }, 800);
+    labelRef.current?.transitionTo({ translateY: -30, color: '#7b4e4e', fontSize: 15 }, 800);
   };
 
   const handleBlur = () => {
@@ -114,7 +113,7 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
   return (
     <OuterContainer bounces={false}>
       <TopHeader height={insets.top} />
-      <Header title="Pix" onPress={navigation.goBack} />
+      <Header title="Pix" onPress={navigation.goBack} showBack={false} />
 
       <BaseText>Para quem você vai transferir?</BaseText>
 
@@ -131,8 +130,13 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
               left: 0,
               top: 18,
               paddingLeft: 10,
+              paddingRight: 10,
+              paddingVertical: 2,
               color: 'grey',
               fontSize: 17,
+              zIndex: 10,
+              backgroundColor: 'white',
+              borderRadius: 4,
             }}
             animation="fadeIn"
             duration={300}>
@@ -182,10 +186,6 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
             paddingHorizontal: 15,
           }}>
           <ContactsHeading>Contatos Recentes</ContactsHeading>
-          <SeeAllButton onPress={handleSeeAllContacts}>
-            <SeeAllText>Todos os contatos</SeeAllText>
-            <AntIcon name="right" size={14} color="#000" />
-          </SeeAllButton>
         </View>
 
         <ContactList
@@ -196,6 +196,31 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
           keyExtractor={(item) => item.id}
           contentContainerStyle={{ paddingHorizontal: 10 }}
         />
+
+        <SeeAllButton
+          onPress={handleSeeAllContacts}
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginTop: 15,
+            marginBottom: 5,
+          }}>
+          <View
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: 20,
+              backgroundColor: '#fff',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginRight: 10,
+            }}>
+            <AntIcon name="user" size={24} color="#ec0200" />
+          </View>
+          <SeeAllText style={{ fontSize: 16 }}>Todos os contatos</SeeAllText>
+          <AntIcon name="right" size={14} color="#000" style={{ marginLeft: 15 }} />
+        </SeeAllButton>
       </ContactsContainer>
 
       <OtherOptionsTitle>Você também pode usar</OtherOptionsTitle>
