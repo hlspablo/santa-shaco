@@ -11,6 +11,7 @@ import { ConfirmScreenNavigationProp } from '@/@types/navigation';
 import { ActionButton } from '@/components/Buttons/Action/ActionButton';
 import Divider from '@/components/Divider';
 import Header from '@/components/Header';
+import { LoadingComponent } from '@/screens/Loading';
 import { useSetup } from '@/store/hooks';
 import {
   addDashBeforeLast,
@@ -23,6 +24,7 @@ import {
 export const ConfirmScreen = function () {
   const [saveContact, setSaveContact] = useState(false);
   const [repeatPix, setRepeatPix] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
 
   const navigation = useNavigation<ConfirmScreenNavigationProp>();
   const insets = useSafeAreaInsets();
@@ -40,8 +42,11 @@ export const ConfirmScreen = function () {
   } = useSetup();
 
   function confirmTransaction() {
-    withdraw();
-    navigation.navigate('SuccessScreen');
+    setShowLoading(true);
+    setTimeout(() => {
+      withdraw();
+      navigation.navigate('SuccessScreen');
+    }, 2000); // Show loading for at least 2 seconds
   }
 
   return (
@@ -131,6 +136,8 @@ export const ConfirmScreen = function () {
           <Text style={styles.sendButtonText}>Enviar agora</Text>
         </TouchableOpacity>
       </View>
+
+      {showLoading && <LoadingComponent />}
     </View>
   );
 };
