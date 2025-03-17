@@ -415,7 +415,7 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
           Celular, CPF/CNPJ, e-mail, chave-aleatória...
         </Text>
 
-        <ContactsContainer>
+        <ContactsContainer style={{ opacity: keyboardVisible ? 0.4 : 1 }}>
           <View
             style={{
               flexDirection: 'row',
