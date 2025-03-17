@@ -114,10 +114,8 @@ export const ConfirmScreen = function () {
 
         <View style={styles.warningContainer}>
           <Text style={styles.warningText}>
-            Confira os dados acima antes de concluir a transação.
-          </Text>
-          <Text style={styles.warningSecondaryText}>
-            Após a confirmação, a operação não poderá ser cancelada.
+            Confira os dados acima antes de concluir a transação. Após a transferência, esta ação
+            não poderá ser desfeita.
           </Text>
         </View>
 
@@ -149,7 +147,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   headerText: {
-    fontSize: 20,
+    fontSize: 21,
     color: '#333',
     marginVertical: 12,
   },
