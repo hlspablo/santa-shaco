@@ -254,6 +254,17 @@ export const MainScreen = function () {
           paddingBottom: 5,
           fontSize: 12,
         },
+        tabBarItemStyle: {
+          opacity: 1,
+        },
+        lazy: false,
+        tabBarButton: (props) => (
+          <Pressable
+            {...props}
+            android_ripple={{ borderless: false, color: 'transparent' }}
+            style={props.style}
+          />
+        ),
       })}>
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Pix" component={PixScreen} />
