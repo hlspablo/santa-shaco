@@ -56,8 +56,161 @@ export interface PixTransferProps {
   navigation?: any;
 }
 
+// Helper functions for input masking
+const formatCPF = (value: string): string => {
+  // Remove non-numeric characters
+  const numbers = value.replace(/\D/g, '');
+
+  // Apply CPF mask (XXX.XXX.XXX-XX) only when it reaches 11 digits
+  if (numbers.length === 11) {
+    return `${numbers.slice(0, 3)}.${numbers.slice(3, 6)}.${numbers.slice(6, 9)}-${numbers.slice(9, 11)}`;
+  }
+
+  // Otherwise return the raw numbers
+  return numbers;
+};
+
+// CPF validation function
+const isValidCPF = (cpf: string): boolean => {
+  // Remove non-numeric characters
+  const numbers = cpf.replace(/\D/g, '');
+
+  // CPF must have 11 digits
+  if (numbers.length !== 11) return false;
+
+  // Check for known invalid CPFs (all same digits)
+  if (/^(\d)\1{10}$/.test(numbers)) return false;
+
+  // Validate first check digit
+  let sum = 0;
+  for (let i = 0; i < 9; i++) {
+    sum += parseInt(numbers.charAt(i)) * (10 - i);
+  }
+  let remainder = (sum * 10) % 11;
+  if (remainder === 10 || remainder === 11) remainder = 0;
+  if (remainder !== parseInt(numbers.charAt(9))) return false;
+
+  // Validate second check digit
+  sum = 0;
+  for (let i = 0; i < 10; i++) {
+    sum += parseInt(numbers.charAt(i)) * (11 - i);
+  }
+  remainder = (sum * 10) % 11;
+  if (remainder === 10 || remainder === 11) remainder = 0;
+  if (remainder !== parseInt(numbers.charAt(10))) return false;
+
+  return true;
+};
+
+// Smart mask function that detects input type and applies the correct format
+const applySmartMask = (value: string): string => {
+  // Empty input check
+  if (!value || value.trim() === '') return '';
+
+  // Email detection
+  if (value.includes('@')) {
+    return value;
+  }
+
+  // Clean the input (remove non-alphanumeric characters)
+  const cleaned = value.replace(/\D/g, '');
+
+  // For non-numeric inputs, return as is
+  if (!cleaned) return value;
+
+  // Apply masks only when reaching full length
+  if (cleaned.length === 11) {
+    // Simple rule: If valid CPF, use CPF mask. Otherwise, use phone mask.
+    if (isValidCPF(cleaned)) {
+      return formatCPF(cleaned);
+    } else {
+      return formatPhone(cleaned);
+    }
+  } else if (cleaned.length === 14) {
+    // CNPJ format for 14 digits
+    return formatCNPJ(cleaned);
+  } else if (cleaned.length === 10) {
+    // Phone format for 10 digits
+    return formatPhone(cleaned);
+  }
+
+  // Special case for explicit phone format
+  if (value.startsWith('(')) {
+    return formatPhone(cleaned);
+  }
+
+  // Return raw numbers for all other cases
+  return cleaned;
+};
+
+// Function to check if input looks like a phone number
+const looksLikePhone = (value: string): boolean => {
+  // Remove non-numeric characters
+  const numbers = value.replace(/\D/g, '');
+
+  // If it's a valid CPF, it's not a phone - this check should always come first
+  if (numbers.length === 11 && isValidCPF(numbers)) {
+    return false;
+  }
+
+  // Brazilian phone numbers typically start with area code (2 digits)
+  // and have 8-9 digits after that
+  if (numbers.length === 10 || numbers.length === 11) {
+    // Check if it starts with a valid area code (10-99)
+    if (/^[1-9][0-9]/.test(numbers)) {
+      // For mobile numbers, the 3rd digit is typically 9
+      if (numbers.length === 11 && numbers.charAt(2) === '9') {
+        return true;
+      }
+      // For landlines or older mobile formats
+      if (numbers.length === 10) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+
+const formatCNPJ = (value: string): string => {
+  // Remove non-numeric characters
+  const numbers = value.replace(/\D/g, '');
+
+  // Apply CNPJ mask (XX.XXX.XXX/XXXX-XX) only when it reaches 14 digits
+  if (numbers.length === 14) {
+    return `${numbers.slice(0, 2)}.${numbers.slice(2, 5)}.${numbers.slice(5, 8)}/${numbers.slice(8, 12)}-${numbers.slice(12, 14)}`;
+  }
+
+  // Otherwise return the raw numbers
+  return numbers;
+};
+
+const formatPhone = (value: string): string => {
+  // Remove non-numeric characters
+  const numbers = value.replace(/\D/g, '');
+
+  // Apply phone mask ((XX) XXXXX-XXXX) only when it reaches 10 or 11 digits
+  if (numbers.length === 10) {
+    return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 6)}-${numbers.slice(6, 10)}`;
+  } else if (numbers.length === 11) {
+    return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7, 11)}`;
+  }
+
+  // Special case: if user explicitly starts with "(", keep that formatting
+  if (value.startsWith('(') && numbers.length > 0) {
+    if (numbers.length <= 2) {
+      return `(${numbers}`;
+    } else if (numbers.length <= 7) {
+      return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`;
+    }
+  }
+
+  // Otherwise return the raw numbers
+  return numbers;
+};
+
 export const PixTransferScreen: React.FC<PixTransferProps> = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [formattedQuery, setFormattedQuery] = useState<string>('');
   const [keyboardVisible, setKeyboardVisible] = useState<boolean>(false);
   const [isValidPixKey, setIsValidPixKey] = useState<boolean>(false);
   const labelRef = useRef<Animatable.Text>(null);
@@ -105,8 +258,11 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
     };
   }, [navigation]);
 
-  // Validate Pix key whenever searchQuery changes
+  // Apply smart masking whenever searchQuery changes
   useEffect(() => {
+    const formatted = applySmartMask(searchQuery);
+    setFormattedQuery(formatted);
+
     // Simple validation - consider a key valid if it's at least 6 chars
     // This should be replaced with proper Pix key validation logic
     const isValid = searchQuery.trim().length >= 6;
@@ -126,9 +282,15 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
 
   const clearInput = () => {
     setSearchQuery('');
+    setFormattedQuery('');
     setIsValidPixKey(false);
     textInputRef.current?.clear();
     labelRef.current?.transitionTo({ translateY: 0, color: 'grey', fontSize: 17 }, 300);
+  };
+
+  const handleTextChange = (value: string) => {
+    // Store the raw input (with possible formatting)
+    setSearchQuery(value);
   };
 
   const handleContactPress = (contact: any) => {
@@ -145,9 +307,12 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
   const handleContinue = () => {
     if (isValidPixKey) {
       // Setup data with the entered Pix key/info
+      // Remove formatting before sending for cleaner data
+      const rawValue = searchQuery.replace(/[^\w@.-]/g, '');
+
       setup.setSetupData({
         ...setup,
-        clientPix: searchQuery,
+        clientPix: rawValue,
         clientBank: 'Banco Santa',
       });
       navigation.navigate('ValueScreen');
@@ -227,8 +392,8 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
               }}
               returnKeyType="search"
               keyboardAppearance="light"
-              onChangeText={(value) => setSearchQuery(value)}
-              value={searchQuery}
+              onChangeText={handleTextChange}
+              value={formattedQuery}
             />
           </Pressable>
           {searchQuery.length > 0 && (
