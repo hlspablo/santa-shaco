@@ -77,7 +77,9 @@ export const ValueScreen = function () {
       <TopHeader height={insets.top} />
       <Header title="Definir transferência" onPress={navigation.goBack} redBackground />
       <BaseTextContainer>
-        <BaseText>Para {clientName}</BaseText>
+        <BaseText>
+          Para <Text style={{ fontWeight: 'bold' }}>{clientName}</Text>
+        </BaseText>
         <GrayText>
           CPF: {maskCPF(clientCPF)} - {clientBank.toUpperCase()}
         </GrayText>
@@ -88,7 +90,7 @@ export const ValueScreen = function () {
       </BottomContainer>
       <Divider />
 
-      <View style={{ paddingVertical: 15 }}>
+      <View style={{ paddingVertical: 8 }}>
         <Text style={{ fontSize: 18, color: '#333', marginLeft: 20, marginBottom: 5 }}>
           Qual o valor?
         </Text>
@@ -102,8 +104,8 @@ export const ValueScreen = function () {
 
       <Divider />
 
-      <View style={{ paddingVertical: 15 }}>
-        <Text style={{ fontSize: 18, color: '#333', marginLeft: 20, marginBottom: 15 }}>
+      <View style={{ paddingVertical: 8 }}>
+        <Text style={{ fontSize: 18, color: '#333', marginLeft: 20, marginBottom: 8 }}>
           Quando vai ser feito?
         </Text>
         <View
@@ -115,7 +117,9 @@ export const ValueScreen = function () {
           }}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <MaterialIcon name="calendar-today" size={22} color="#333" />
-            <Text style={{ fontSize: 18, marginLeft: 15 }}>Hoje, 17 de Mar</Text>
+            <Text style={{ fontSize: 18, marginLeft: 15, fontWeight: 'bold' }}>
+              Hoje, 17 de Mar
+            </Text>
           </View>
           <Text style={{ color: '#ba261a', fontSize: 16, textDecorationLine: 'underline' }}>
             Agendar
@@ -125,14 +129,14 @@ export const ValueScreen = function () {
 
       <Divider />
 
-      <View style={{ paddingVertical: 15 }}>
+      <View style={{ paddingVertical: 8 }}>
         <View
           style={{
             flexDirection: 'row',
             paddingHorizontal: 20,
             justifyContent: 'space-between',
             alignItems: 'center',
-            marginBottom: 15,
+            marginBottom: 8,
           }}>
           <Text style={{ fontSize: 18, color: '#333' }}>Como você quer pagar?</Text>
           <Icon name="eye" size={24} color="#333" />
@@ -151,10 +155,12 @@ export const ValueScreen = function () {
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <View
                 style={{
-                  width: 15,
-                  height: 15,
+                  width: 18,
+                  height: 18,
                   borderRadius: 10,
-                  backgroundColor: '#ba261a',
+                  backgroundColor: 'white',
+                  borderWidth: 5,
+                  borderColor: '#ba261a',
                   marginRight: 10,
                 }}
               />

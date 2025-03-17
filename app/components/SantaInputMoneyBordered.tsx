@@ -83,8 +83,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 15,
-    paddingVertical: 15,
-    height: 70,
+    paddingVertical: 10,
+    height: 55,
     backgroundColor: '#fff',
   },
   textInput: {
