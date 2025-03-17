@@ -76,7 +76,7 @@ export const ValueScreen = function () {
     <OuterContainer bounces={false}>
       <TopHeader height={insets.top} />
       <Header title="Definir transferência" onPress={navigation.goBack} redBackground />
-      <BaseTextContainer>
+      <BaseTextContainer style={{ paddingBottom: 15 }}>
         <BaseText>
           Para <Text style={{ fontWeight: 'bold' }}>{clientName}</Text>
         </BaseText>
@@ -85,12 +85,20 @@ export const ValueScreen = function () {
         </GrayText>
         <GrayText>Chave: {detectAndMask(clientPix)}</GrayText>
       </BaseTextContainer>
-      <BottomContainer>
-        <AddInfoText>Adicionar mensagem</AddInfoText>
+      <BottomContainer style={{ paddingTop: 0 }}>
+        <Text
+          style={{
+            fontSize: 18,
+            color: '#ba261a',
+            marginBottom: 8,
+            textDecorationLine: 'underline',
+          }}>
+          Adicionar mensagem
+        </Text>
       </BottomContainer>
       <Divider />
 
-      <View style={{ paddingVertical: 8 }}>
+      <View style={{ paddingVertical: 5 }}>
         <Text style={{ fontSize: 18, color: '#333', marginLeft: 20, marginBottom: 5 }}>
           Qual o valor?
         </Text>
@@ -104,7 +112,7 @@ export const ValueScreen = function () {
 
       <Divider />
 
-      <View style={{ paddingVertical: 8 }}>
+      <View style={{ paddingVertical: 5 }}>
         <Text style={{ fontSize: 18, color: '#333', marginLeft: 20, marginBottom: 8 }}>
           Quando vai ser feito?
         </Text>
@@ -129,7 +137,7 @@ export const ValueScreen = function () {
 
       <Divider />
 
-      <View style={{ paddingVertical: 8 }}>
+      <View style={{ paddingVertical: 5 }}>
         <View
           style={{
             flexDirection: 'row',
@@ -155,15 +163,24 @@ export const ValueScreen = function () {
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <View
                 style={{
-                  width: 18,
-                  height: 18,
-                  borderRadius: 10,
-                  backgroundColor: 'white',
-                  borderWidth: 5,
+                  width: 22,
+                  height: 22,
+                  borderRadius: 12,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderWidth: 0.5,
                   borderColor: '#ba261a',
                   marginRight: 10,
-                }}
-              />
+                }}>
+                <View
+                  style={{
+                    width: 12,
+                    height: 12,
+                    borderRadius: 6,
+                    backgroundColor: '#ba261a',
+                  }}
+                />
+              </View>
               <Text style={{ fontSize: 18, color: '#666' }}>Conta corrente</Text>
             </View>
           </View>
@@ -175,7 +192,7 @@ export const ValueScreen = function () {
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                marginBottom: 15,
+                marginBottom: 10,
               }}>
               <Text style={{ fontSize: 16, color: '#666' }}>
                 Ag {ownerAgency} CC {addDashBeforeLast(ownerAccount)}
@@ -194,7 +211,7 @@ export const ValueScreen = function () {
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                marginBottom: 10,
+                marginBottom: 8,
               }}>
               <Text style={{ fontSize: 16, color: '#666' }}>Saldo disponível</Text>
               <View

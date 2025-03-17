@@ -74,7 +74,7 @@ export const SantaInputMoneyBordered = ({
 const styles = StyleSheet.create({
   outerContainer: {
     marginHorizontal: 20,
-    marginVertical: 10,
+    marginVertical: 5,
   },
   inputContainer: {
     borderWidth: 1,
