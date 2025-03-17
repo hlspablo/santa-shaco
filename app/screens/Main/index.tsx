@@ -1,9 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import {
-  createBottomTabNavigator,
-  BottomTabNavigationOptions,
-  BottomTabBarProps,
-} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator, BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
@@ -16,8 +12,6 @@ import {
   AccountAreaView,
   AccountNumberText,
   AccountUserText,
-  CardNumberContainer,
-  CardNumberText,
   Container,
   ImageWrapper,
   ImagesContainer,
@@ -45,14 +39,14 @@ type TabParamList = {
 
 const Tab = createBottomTabNavigator<TabParamList>();
 
-// Main content component (what was previously MainScreen)
+// Main content component
 const HomeScreen = function HomeScreen() {
   const [isOpen, setIsOpen] = React.useState(false);
   const [shouldAnimate, setShouldAnimate] = React.useState(false);
   const navigation = useNavigation<MainScreenNavigationProp>();
   const insets = useSafeAreaInsets();
   const {
-    setup: { ownerAgency, ownerAccount, ownerName, ownerCard, balance },
+    setup: { ownerAgency, ownerAccount, ownerName, balance },
   } = useSetup();
 
   const toggleRectangle = () => {
@@ -186,7 +180,6 @@ const HomeScreen = function HomeScreen() {
   );
 };
 
-// Placeholder screens for other tabs
 const PixScreen = () => <PixTransferScreen />;
 
 const AtendimentoScreen = () => (
@@ -201,7 +194,6 @@ const MenuScreen = () => (
   </View>
 );
 
-// Custom Tab Bar component with sliding indicator
 function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const [translateValue] = React.useState(new Animated.Value(0));
   const totalWidth = Dimensions.get('window').width;
@@ -220,7 +212,6 @@ function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
 
   return (
     <View style={[styles.tabBarContainer, { paddingBottom: insets.bottom }]}>
-      {/* Animated Red Line Indicator */}
       <Animated.View
         style={[
           styles.tabIndicator,
@@ -298,10 +289,7 @@ function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   );
 }
 
-// Main component with Tab Navigation
 export const MainScreen = function () {
-  const insets = useSafeAreaInsets();
-
   return (
     <Tab.Navigator
       tabBar={(props) => <CustomTabBar {...props} />}
