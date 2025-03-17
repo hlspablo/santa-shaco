@@ -2,11 +2,12 @@ import { Ionicons } from '@expo/vector-icons';
 import {
   createBottomTabNavigator,
   BottomTabNavigationOptions,
+  BottomTabBarProps,
 } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Pressable, StyleSheet, View, Text } from 'react-native';
+import { Pressable, StyleSheet, View, Text, Animated, Dimensions } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Image from 'react-native-fast-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -200,16 +201,54 @@ const MenuScreen = () => (
   </View>
 );
 
-// Main component with Tab Navigation
-export const MainScreen = function () {
+// Custom Tab Bar component with sliding indicator
+function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
+  const [translateValue] = React.useState(new Animated.Value(0));
+  const totalWidth = Dimensions.get('window').width;
+  const tabWidth = totalWidth / state.routes.length;
   const insets = useSafeAreaInsets();
 
-  return (
-    <Tab.Navigator
-      screenOptions={({ route }): BottomTabNavigationOptions => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName: keyof typeof Ionicons.glyphMap;
+  React.useEffect(() => {
+    Animated.spring(translateValue, {
+      toValue: state.index * tabWidth,
+      velocity: 10,
+      useNativeDriver: true,
+      friction: 6,
+      tension: 50,
+    }).start();
+  }, [state.index, tabWidth, translateValue]);
 
+  return (
+    <View style={[styles.tabBarContainer, { paddingBottom: insets.bottom }]}>
+      {/* Animated Red Line Indicator */}
+      <Animated.View
+        style={[
+          styles.tabIndicator,
+          {
+            transform: [{ translateX: translateValue }],
+            width: tabWidth,
+          },
+        ]}
+      />
+
+      {state.routes.map((route, index) => {
+        const { options } = descriptors[route.key];
+        const label = route.name;
+        const isFocused = state.index === index;
+
+        const onPress = () => {
+          const event = navigation.emit({
+            type: 'tabPress',
+            target: route.key,
+            canPreventDefault: true,
+          });
+
+          if (!isFocused && !event.defaultPrevented) {
+            navigation.navigate(route.name);
+          }
+        };
+
+        const renderIcon = () => {
           if (route.name === 'Home') {
             return (
               <Image
@@ -235,37 +274,41 @@ export const MainScreen = function () {
               />
             );
           } else if (route.name === 'Menu') {
-            iconName = focused ? 'menu' : 'menu-outline';
-          } else {
-            iconName = 'help-circle';
+            const iconName = isFocused ? 'menu' : 'menu-outline';
+            return <Ionicons name={iconName} size={24} color={isFocused ? '#D74141' : 'gray'} />;
           }
+        };
 
-          return <Ionicons name={iconName} size={size} color={color} />;
-        },
-        tabBarActiveTintColor: '#D74141',
-        tabBarInactiveTintColor: 'gray',
-        headerShown: false,
-        tabBarStyle: {
-          height: 60 + insets.bottom,
-          paddingTop: 5,
-          paddingBottom: insets.bottom,
-        },
-        tabBarLabelStyle: {
-          paddingBottom: 5,
-          fontSize: 12,
-        },
-        tabBarItemStyle: {
-          opacity: 1,
-        },
-        lazy: false,
-        tabBarButton: (props) => (
+        return (
           <Pressable
-            {...props}
+            key={index}
+            onPress={onPress}
             android_ripple={{ borderless: false, color: 'transparent' }}
-            style={props.style}
-          />
-        ),
-      })}>
+            style={styles.tabButton}>
+            <View style={styles.tabItem}>
+              {renderIcon()}
+              <Text style={[styles.tabLabel, { color: isFocused ? '#D74141' : 'gray' }]}>
+                {label}
+              </Text>
+            </View>
+          </Pressable>
+        );
+      })}
+    </View>
+  );
+}
+
+// Main component with Tab Navigation
+export const MainScreen = function () {
+  const insets = useSafeAreaInsets();
+
+  return (
+    <Tab.Navigator
+      tabBar={(props) => <CustomTabBar {...props} />}
+      screenOptions={{
+        headerShown: false,
+        lazy: false,
+      }}>
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Pix" component={PixScreen} />
       <Tab.Screen name="Atendimento" component={AtendimentoScreen} />
@@ -289,5 +332,32 @@ const styles = StyleSheet.create({
     top: -32,
     borderBottomEndRadius: 5,
     borderBottomStartRadius: 5,
+  },
+  tabBarContainer: {
+    flexDirection: 'row',
+    height: 60,
+    backgroundColor: 'white',
+    position: 'relative',
+  },
+  tabIndicator: {
+    position: 'absolute',
+    height: 3,
+    top: 0,
+    backgroundColor: '#D74141',
+    borderRadius: 1,
+    zIndex: 10,
+  },
+  tabButton: {
+    flex: 1,
+  },
+  tabItem: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 5,
+  },
+  tabLabel: {
+    fontSize: 12,
+    marginTop: 3,
   },
 });
