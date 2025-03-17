@@ -71,7 +71,22 @@ export const CollapsibleRectangle = ({
                 <Text style={styles.understandText}>Entenda seu limite</Text>
                 <View style={styles.bottomView}>
                   <Divider />
-                  <Text style={styles.extractText}>Ver extrato</Text>
+                  <View style={styles.extractRow}>
+                    <Text style={styles.extractText}>Ver extrato</Text>
+                    <Text
+                      style={[
+                        styles.extractText,
+                        {
+                          color: '#ccc',
+                          marginHorizontal: 8,
+                          fontSize: 24,
+                          lineHeight: 24,
+                        },
+                      ]}>
+                      |
+                    </Text>
+                    <Text style={styles.extractText}>Guardar</Text>
+                  </View>
                 </View>
               </View>
             </Animatable.View>
@@ -83,6 +98,11 @@ export const CollapsibleRectangle = ({
 };
 
 const styles = StyleSheet.create({
+  extractRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
   coverShadow: {
     position: 'absolute',
     height: 10,

@@ -25,6 +25,7 @@ import {
   Spacer,
   TopHeader,
 } from './styles';
+import { CardsScreen } from '../Cards';
 import { LoadingComponent } from '../Loading';
 import { PixTransferScreen } from '../PixTransfer';
 
@@ -121,6 +122,13 @@ const HomeScreen = function HomeScreen() {
             <ImageWrapper style={styles.shadow}>
               <Image
                 resizeMode={Image.resizeMode.cover}
+                source={require('@assets/pages/main/idsant.png')}
+                style={{ width: 120, height: 100 }}
+              />
+            </ImageWrapper>
+            <ImageWrapper style={styles.shadow}>
+              <Image
+                resizeMode={Image.resizeMode.cover}
                 source={require('@assets/pages/main/pay.png')}
                 style={{ width: 120, height: 100 }}
               />
@@ -153,24 +161,17 @@ const HomeScreen = function HomeScreen() {
                 style={{ width: 120, height: 100 }}
               />
             </ImageWrapper>
-            <ImageWrapper style={styles.shadow}>
-              <Image
-                resizeMode={Image.resizeMode.cover}
-                source={require('@assets/pages/main/idsant.png')}
-                style={{ width: 120, height: 100 }}
-              />
-            </ImageWrapper>
           </PixRowContainer>
         </ScrollContainer>
-        <ImagesContainer>
-          <CardNumberContainer>
-            <CardNumberText>{ownerCard}</CardNumberText>
-          </CardNumberContainer>
+        <View style={{ width: '100%', height: 230, top: -25, backgroundColor: '#f5f9fb' }}>
           <Image
-            resizeMode={Image.resizeMode.cover}
-            source={require('@assets/pages/main/cards.png')}
-            style={{ width: '100%', height: 380 }}
+            resizeMode={Image.resizeMode.contain}
+            source={require('@assets/pages/main/fgts.png')}
+            style={{ width: '100%', height: '100%' }}
           />
+        </View>
+        <ImagesContainer>
+          <CardsScreen />
           <Image
             resizeMode={Image.resizeMode.cover}
             source={require('@assets/pages/main/poup.png')}
@@ -201,6 +202,8 @@ const MenuScreen = () => (
 
 // Main component with Tab Navigation
 export const MainScreen = function () {
+  const insets = useSafeAreaInsets();
+
   return (
     <Tab.Navigator
       screenOptions={({ route }): BottomTabNavigationOptions => ({
@@ -225,8 +228,9 @@ export const MainScreen = function () {
         tabBarInactiveTintColor: 'gray',
         headerShown: false,
         tabBarStyle: {
-          height: 60,
+          height: 60 + insets.bottom,
           paddingTop: 5,
+          paddingBottom: insets.bottom,
         },
         tabBarLabelStyle: {
           paddingBottom: 5,
