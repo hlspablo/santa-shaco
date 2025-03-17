@@ -1,7 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
+import { View, Text } from 'react-native';
 import Image from 'react-native-fast-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/Feather';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 import {
   AGText,
@@ -34,13 +37,14 @@ import {
   SquareContainer,
   SwitchContainer,
   TopHeader,
+  SectionTitle,
 } from './styles';
 
 import { ValueScreenNavigationProp } from '@/@types/navigation';
 import { ActionButton } from '@/components/Buttons/Action/ActionButton';
 import Divider from '@/components/Divider';
 import Header from '@/components/Header';
-import { SantaInputMoney } from '@/components/SantaInput-Money';
+import { SantaInputMoneyBordered } from '@/components/SantaInputMoneyBordered';
 import { useSetup } from '@/store/hooks';
 import { addDashBeforeLast, detectAndMask, formatCurrency, maskCPF } from '@/utils/format';
 
@@ -71,83 +75,164 @@ export const ValueScreen = function () {
   return (
     <OuterContainer bounces={false}>
       <TopHeader height={insets.top} />
-      <Header title="Pagar" onPress={navigation.goBack} />
+      <Header title="Definir transferência" onPress={navigation.goBack} redBackground />
       <BaseTextContainer>
-        <BaseText>Você vai pagar para</BaseText>
-        <ClientNameText>{clientName.toUpperCase()}</ClientNameText>
+        <BaseText>Para {clientName}</BaseText>
         <GrayText>
           CPF: {maskCPF(clientCPF)} - {clientBank.toUpperCase()}
         </GrayText>
         <GrayText>Chave: {detectAndMask(clientPix)}</GrayText>
       </BaseTextContainer>
-      <RowContainer>
-        <Image
-          resizeMode={Image.resizeMode.cover}
-          source={require('@assets/pages/value/ic_check_off.png')}
-          style={{ width: 25, height: 25 }}
-        />
-        <BaseText2>Salvar contato</BaseText2>
-      </RowContainer>
-      <MiddleContainer>
-        <SantaInputMoney
-          label="Valor a pagar"
+      <BottomContainer>
+        <AddInfoText>Adicionar mensagem</AddInfoText>
+      </BottomContainer>
+      <Divider />
+
+      <View style={{ paddingVertical: 15 }}>
+        <Text style={{ fontSize: 18, color: '#333', marginLeft: 20, marginBottom: 5 }}>
+          Qual o valor?
+        </Text>
+        <SantaInputMoneyBordered
+          label="Valor"
           value={value}
           setValue={setValue}
           onValidation={setIsValid}
         />
-      </MiddleContainer>
-      <BottomContainer>
-        <AddInfoText>Adicionar informações</AddInfoText>
-      </BottomContainer>
-      <OuterSquareContainer>
-        <BaseText3>Forma de Pagamento</BaseText3>
-        <SquareContainer>
-          <Square>
-            <LogoRowContainer>
-              <Image
-                resizeMode={Image.resizeMode.cover}
-                source={require('@assets/pages/value/ic_bullet_santander.png')}
-                style={{ width: 45, height: 45 }}
+      </View>
+
+      <Divider />
+
+      <View style={{ paddingVertical: 15 }}>
+        <Text style={{ fontSize: 18, color: '#333', marginLeft: 20, marginBottom: 15 }}>
+          Quando vai ser feito?
+        </Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingHorizontal: 20,
+            justifyContent: 'space-between',
+          }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <MaterialIcon name="calendar-today" size={22} color="#333" />
+            <Text style={{ fontSize: 18, marginLeft: 15 }}>Hoje, 17 de Mar</Text>
+          </View>
+          <Text style={{ color: '#ba261a', fontSize: 16, textDecorationLine: 'underline' }}>
+            Agendar
+          </Text>
+        </View>
+      </View>
+
+      <Divider />
+
+      <View style={{ paddingVertical: 15 }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            paddingHorizontal: 20,
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: 15,
+          }}>
+          <Text style={{ fontSize: 18, color: '#333' }}>Como você quer pagar?</Text>
+          <Icon name="eye" size={24} color="#333" />
+        </View>
+
+        <View
+          style={{
+            marginHorizontal: 20,
+            borderWidth: 1,
+            borderColor: '#ba261a',
+            borderRadius: 8,
+            backgroundColor: 'white',
+            overflow: 'hidden',
+          }}>
+          <View style={{ padding: 20 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <View
+                style={{
+                  width: 15,
+                  height: 15,
+                  borderRadius: 10,
+                  backgroundColor: '#ba261a',
+                  marginRight: 10,
+                }}
               />
-              <LogoTextContainer>
-                <CCText>Conta corrente</CCText>
-                <AGText>
-                  Ag {ownerAgency} - Cc {addDashBeforeLast(ownerAccount)}
-                </AGText>
-              </LogoTextContainer>
-            </LogoRowContainer>
-            <DividerPadding>
-              <Divider />
-            </DividerPadding>
-            <SquareBottomContainer>
-              <BalanceRowContainer>
-                <BalaceLabelText>Saldo</BalaceLabelText>
-                <BalanceValueText>{formatCurrency(balance)}</BalanceValueText>
-              </BalanceRowContainer>
-              <BalanceRowContainer>
-                <BalaceLabelText>Saldo + limite</BalaceLabelText>
-                <BalanceValueText>{formatCurrency(balance)}</BalanceValueText>
-              </BalanceRowContainer>
-            </SquareBottomContainer>
-          </Square>
-        </SquareContainer>
-        <DotContainer>
-          <RoundRedRot />
-        </DotContainer>
-      </OuterSquareContainer>
-      <PaymentContainer>
-        <BookRowContainer>
-          <BookText>Agendar pagamento</BookText>
-          <SwitchContainer>
-            <Image
-              resizeMode={Image.resizeMode.cover}
-              source={require('@assets/pages/value/switch_off.png')}
-              style={{ width: 30, height: 30 }}
-            />
-          </SwitchContainer>
-        </BookRowContainer>
+              <Text style={{ fontSize: 18, color: '#666' }}>Conta corrente</Text>
+            </View>
+          </View>
+
+          <Divider />
+
+          <View style={{ padding: 20 }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginBottom: 15,
+              }}>
+              <Text style={{ fontSize: 16, color: '#666' }}>
+                Ag {ownerAgency} CC {addDashBeforeLast(ownerAccount)}
+              </Text>
+              <Text
+                style={{
+                  color: '#ba261a',
+                  fontSize: 16,
+                  textDecorationLine: 'underline',
+                }}>
+                Alterar conta
+              </Text>
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginBottom: 10,
+              }}>
+              <Text style={{ fontSize: 16, color: '#666' }}>Saldo disponível</Text>
+              <View
+                style={{
+                  width: 100,
+                  height: 5,
+                  backgroundColor: '#666',
+                  alignSelf: 'center',
+                }}
+              />
+            </View>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Text style={{ fontSize: 16, color: '#666' }}>Saldo + Limite</Text>
+              <View
+                style={{
+                  width: 100,
+                  height: 5,
+                  backgroundColor: '#666',
+                  alignSelf: 'center',
+                }}
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+
+      <View style={{ flex: 1 }} />
+
+      <View
+        style={{
+          backgroundColor: '#e6e6e6',
+          padding: 20,
+          paddingBottom: 30,
+          borderTopLeftRadius: 10,
+          borderTopRightRadius: 10,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: -2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 5,
+          elevation: 5,
+        }}>
         <ActionButton onPress={goToConfirm} text="Continuar" disabled={!isValid} />
-      </PaymentContainer>
+      </View>
     </OuterContainer>
   );
 };
