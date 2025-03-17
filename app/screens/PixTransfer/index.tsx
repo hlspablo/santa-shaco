@@ -11,6 +11,7 @@ import {
   Animated,
   KeyboardAvoidingView,
   Platform,
+  InteractionManager,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Image from 'react-native-fast-image';
@@ -69,10 +70,18 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
   useEffect(() => {
     function keyboardDidShow() {
       setKeyboardVisible(true);
+      // Hide tab bar when keyboard is visible
+      navigation.setOptions({
+        tabBarStyle: { display: 'none' },
+      });
     }
 
     function keyboardDidHide() {
       setKeyboardVisible(false);
+      // Show tab bar when keyboard is hidden
+      navigation.setOptions({
+        tabBarStyle: { display: 'flex' },
+      });
     }
 
     const keyboardDidShowListener = Keyboard.addListener(
@@ -88,8 +97,13 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
     return () => {
       keyboardDidShowListener.remove();
       keyboardDidHideListener.remove();
+
+      // Make sure tab bar is visible when component unmounts
+      navigation.setOptions({
+        tabBarStyle: { display: 'flex' },
+      });
     };
-  }, []);
+  }, [navigation]);
 
   // Validate Pix key whenever searchQuery changes
   useEffect(() => {
