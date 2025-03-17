@@ -72,15 +72,15 @@ export const ContactList = styled(FlatList)`
 
 export const ContactItem = styled.TouchableOpacity`
   align-items: center;
-  width: 80px;
+  width: 60px;
   margin-horizontal: 5px;
 `;
 
 export const CircleAvatar = styled.View`
-  width: 60px;
-  height: 60px;
-  border-radius: 30px;
-  background-color: #d3d3d3;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  background-color: #9bc3d3;
   align-items: center;
   justify-content: center;
 `;

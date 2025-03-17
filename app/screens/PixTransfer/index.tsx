@@ -2,29 +2,25 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useRef, useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import Image from 'react-native-fast-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {
   BaseText,
-  ButtonContainer,
   CircleAvatar,
-  ContactContainer,
   ContactItem,
   ContactList,
   ContactName,
   ContactsContainer,
   ContactsHeading,
-  Divider,
   InitialsText,
   InputContainer,
-  Label,
   OtherOptionsContainer,
   OtherOptionsItem,
   OtherOptionsTitle,
   OuterContainer,
-  SearchInput,
   SeeAllButton,
   SeeAllText,
   TopHeader,
@@ -202,23 +198,18 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'space-between',
             marginTop: 15,
             marginBottom: 5,
+            paddingHorizontal: 15,
           }}>
-          <View
-            style={{
-              width: 40,
-              height: 40,
-              borderRadius: 20,
-              backgroundColor: '#fff',
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginRight: 10,
-            }}>
-            <AntIcon name="user" size={24} color="#ec0200" />
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Image
+              source={require('@assets/icons/contacts.png')}
+              style={{ width: 25, height: 25 }}
+            />
+            <SeeAllText style={{ fontSize: 18, marginLeft: 10 }}>Todos os contatos</SeeAllText>
           </View>
-          <SeeAllText style={{ fontSize: 16 }}>Todos os contatos</SeeAllText>
           <AntIcon name="right" size={14} color="#000" style={{ marginLeft: 15 }} />
         </SeeAllButton>
       </ContactsContainer>
@@ -227,23 +218,23 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
 
       <OtherOptionsContainer>
         <OtherOptionsItem onPress={navigateToCpfScreen}>
-          <FontAwesome name="bank" size={40} color="#ba261a" />
+          <Image source={require('@assets/icons/bank.png')} style={{ width: 25, height: 25 }} />
           <Text style={{ textAlign: 'center', marginTop: 10 }}>Agência{'\n'}e conta</Text>
         </OtherOptionsItem>
 
         <OtherOptionsItem onPress={navigateToPhoneScreen}>
-          <AntIcon name="copy1" size={40} color="#ba261a" />
+          <Image source={require('@assets/icons/copy.png')} style={{ width: 25, height: 25 }} />
           <Text style={{ textAlign: 'center', marginTop: 10 }}>Pix copia{'\n'}e cola</Text>
         </OtherOptionsItem>
 
         <OtherOptionsItem onPress={navigateToQrCodeScreen}>
-          <AntIcon name="qrcode" size={40} color="#ba261a" />
+          <Image source={require('@assets/icons/qrcode.png')} style={{ width: 25, height: 25 }} />
           <Text style={{ textAlign: 'center', marginTop: 10 }}>Código{'\n'}QR</Text>
         </OtherOptionsItem>
       </OtherOptionsContainer>
 
-      <View style={{ marginTop: 30 }}>
-        <Text style={{ fontSize: 24, fontWeight: 'bold', marginLeft: 15, marginBottom: 15 }}>
+      <View style={{ marginTop: 20 }}>
+        <Text style={{ fontSize: 19, fontWeight: '600', marginLeft: 15, marginBottom: 15 }}>
           Gerenciar
         </Text>
 
@@ -263,7 +254,7 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
               alignItems: 'center',
               marginRight: 15,
             }}>
-            <FontAwesome name="key" size={24} color="#ba261a" />
+            <Image source={require('@assets/icons/keys.png')} style={{ width: 25, height: 25 }} />
           </View>
           <View style={{ flex: 1 }}>
             <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Minhas Chaves</Text>
@@ -288,7 +279,7 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
               alignItems: 'center',
               marginRight: 15,
             }}>
-            <FontAwesome name="sliders" size={24} color="#ba261a" />
+            <Image source={require('@assets/icons/limits.png')} style={{ width: 25, height: 25 }} />
           </View>
           <View style={{ flex: 1 }}>
             <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Meus Limites</Text>
@@ -313,7 +304,10 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
               alignItems: 'center',
               marginRight: 15,
             }}>
-            <FontAwesome name="file-text-o" size={24} color="#ba261a" />
+            <Image
+              source={require('@assets/icons/extract.png')}
+              style={{ width: 25, height: 25 }}
+            />
           </View>
           <View style={{ flex: 1 }}>
             <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Extrato Pix</Text>
@@ -338,7 +332,7 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
               alignItems: 'center',
               marginRight: 15,
             }}>
-            <FontAwesome name="calendar" size={24} color="#ba261a" />
+            <Image source={require('@assets/icons/debit.png')} style={{ width: 25, height: 25 }} />
           </View>
           <View style={{ flex: 1 }}>
             <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Débito Automático via Pix</Text>
@@ -363,7 +357,10 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
               alignItems: 'center',
               marginRight: 15,
             }}>
-            <FontAwesome name="calendar" size={24} color="#ba261a" />
+            <Image
+              source={require('@assets/icons/booking.png')}
+              style={{ width: 25, height: 25 }}
+            />
           </View>
           <View style={{ flex: 1 }}>
             <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Agendamentos</Text>
@@ -388,7 +385,7 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
               alignItems: 'center',
               marginRight: 15,
             }}>
-            <FontAwesome name="refresh" size={24} color="#ba261a" />
+            <Image source={require('@assets/icons/repeat.png')} style={{ width: 25, height: 25 }} />
           </View>
           <View style={{ flex: 1 }}>
             <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Repetições programadas</Text>
@@ -396,18 +393,6 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
           </View>
           <AntIcon name="right" size={20} color="#777" />
         </Pressable>
-
-        <Text
-          style={{
-            fontSize: 24,
-            fontWeight: 'bold',
-            marginTop: 30,
-            marginLeft: 15,
-            marginBottom: 15,
-          }}>
-          Mais opções
-        </Text>
-
         <View style={{ height: 60 }} />
       </View>
     </OuterContainer>
