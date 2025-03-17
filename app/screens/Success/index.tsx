@@ -12,7 +12,11 @@ import {
   LabelText2,
   LabelTextContainer,
   MiddleContainer,
+  NewPixButton,
+  NewPixText,
   OuterContainer,
+  PixTitle,
+  PixSubtitle,
   RowContainer,
   RowWrapper,
   SeeVoucher,
@@ -256,7 +260,8 @@ export const SuccessScreen = function () {
       <OuterContainer
         bounces={false}
         contentContainerStyle={{
-          flex: 1,
+          flexGrow: 1,
+          paddingBottom: 20,
         }}>
         <TopHeader height={insets.top} />
         <Header onPress={goToMainScreen} title="Comprovante" showClose />
@@ -269,12 +274,17 @@ export const SuccessScreen = function () {
                 style={{ width: 35, height: 35 }}
               />
               <LabelTextContainer>
-                <LabelText2>Pronto! Seu pagamento foi realizado</LabelText2>
+                <LabelText2>Pronto! Seu pagamento foi realizado.</LabelText2>
               </LabelTextContainer>
             </RowContainer>
           </Square>
         </SquareContainer>
         <MiddleContainer>
+          <PixTitle>Comprovante do Pix</PixTitle>
+          <PixSubtitle>
+            Você pode consultar o comprovante da sua transação em Início {`>`} Pix {`>`} Extrato
+            Pix.
+          </PixSubtitle>
           <RowWrapper>
             <LabelText>Valor pago</LabelText>
             <ValueText>{formatCurrency(transferValue)}</ValueText>
@@ -312,6 +322,9 @@ export const SuccessScreen = function () {
         </MiddleContainer>
         <ButtonContainer>
           <ShareButton onPress={printToFile} text="Salvar ou Compartilhar" />
+          <NewPixButton onPress={goToMainScreen}>
+            <NewPixText>Fazer novo Pix</NewPixText>
+          </NewPixButton>
           <Pressable onPress={goToVoucherScreen}>
             <SeeVoucher>Ver comprovante completo</SeeVoucher>
           </Pressable>
