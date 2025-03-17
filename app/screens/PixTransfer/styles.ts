@@ -19,7 +19,7 @@ export const BaseText = styled.Text`
 `;
 
 export const InputContainer = styled.View`
-  margin: 0 15px;
+  margin: 0 20px;
   border-width: 1px;
   border-color: #ccc;
   border-radius: 5px;
@@ -101,7 +101,7 @@ export const ContactName = styled.Text`
 export const OtherOptionsTitle = styled.Text`
   font-size: 18px;
   color: #000;
-  font-weight: bold;
+  font-weight: 500;
   margin: 20px 15px 10px 15px;
 `;
 

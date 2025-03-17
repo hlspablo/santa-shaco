@@ -169,7 +169,7 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
         )}
       </InputContainer>
 
-      <Text style={{ paddingLeft: 15, color: '#777', marginTop: 5, marginBottom: 5 }}>
+      <Text style={{ paddingLeft: 20, color: '#777', marginTop: 5, marginBottom: 5 }}>
         Celular, CPF/CNPJ, e-mail, chave-aleatória...
       </Text>
 
@@ -234,7 +234,7 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
       </OtherOptionsContainer>
 
       <View style={{ marginTop: 20 }}>
-        <Text style={{ fontSize: 19, fontWeight: '600', marginLeft: 15, marginBottom: 15 }}>
+        <Text style={{ fontSize: 19, fontWeight: '500', marginLeft: 15, marginBottom: 15 }}>
           Gerenciar
         </Text>
 
