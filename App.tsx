@@ -12,6 +12,7 @@
 
 import './app/utils/ignoreWarnings';
 import { useFonts } from 'expo-font';
+import { StatusBar } from 'expo-status-bar';
 import { Provider } from 'jotai/react';
 import { useState, useCallback } from 'react';
 import { initialWindowMetrics, SafeAreaProvider } from 'react-native-safe-area-context';
@@ -64,6 +65,7 @@ function App(props: AppProps) {
     <Provider>
       <StoreProvider>
         <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+          <StatusBar style="light" backgroundColor="#BA261A" />
           <AppNavigator
             initialState={initialNavigationState}
             onStateChange={onNavigationStateChange}

@@ -69,7 +69,7 @@ const HomeScreen = function HomeScreen() {
 
   return (
     <>
-      <StatusBar style="auto" backgroundColor="#D74141" />
+      <StatusBar style="auto" backgroundColor="#BA261A" />
       <TopHeader height={insets.top} />
       <Pressable onPress={goStartup}>
         <Image
