@@ -73,7 +73,7 @@ const HomeScreen = function HomeScreen() {
         <Image
           source={require('@assets/pages/main/header.png')}
           resizeMode={Image.resizeMode.cover}
-          style={{ width: '100%', height: 51, backgroundColor: '#BA261A' }}
+          style={{ width: '100%', height: 50, backgroundColor: '#BA261A' }}
         />
       </Pressable>
       <Container bounces={false}>
