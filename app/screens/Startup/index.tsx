@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import { StatusBar } from 'expo-status-bar';
 import { Pressable } from 'react-native';
 import Image from 'react-native-fast-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -22,6 +22,7 @@ export const StartupScreen = function () {
   return (
     <Container>
       <TopHeader height={insets.top} />
+      <StatusBar style="light" backgroundColor="#BA261A" />
       <Pressable onPress={goToSetup}>
         <Image
           source={require('@assets/pages/home/top.png')}
@@ -39,7 +40,7 @@ export const StartupScreen = function () {
         <Image
           source={require('@assets/pages/home/actions.png')}
           resizeMode={Image.resizeMode.cover}
-          style={{ width: '100%', height: 180, backgroundColor: '#E6EAED' }}
+          style={{ width: '100%', height: 155, backgroundColor: '#E6EAED' }}
         />
       </Pressable>
       <Image

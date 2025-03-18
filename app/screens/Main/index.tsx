@@ -1,5 +1,9 @@
 import { Ionicons } from '@expo/vector-icons';
-import { createBottomTabNavigator, BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import {
+  createBottomTabNavigator,
+  BottomTabBarProps,
+  BottomTabNavigationProp,
+} from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
@@ -44,6 +48,7 @@ const HomeScreen = function HomeScreen() {
   const [isOpen, setIsOpen] = React.useState(false);
   const [shouldAnimate, setShouldAnimate] = React.useState(false);
   const navigation = useNavigation<MainScreenNavigationProp>();
+  const tabNavigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
   const insets = useSafeAreaInsets();
   const {
     setup: { ownerAgency, ownerAccount, ownerName, balance },
@@ -59,22 +64,22 @@ const HomeScreen = function HomeScreen() {
   }
 
   function goToMethods() {
-    navigation.navigate('MethodScreen');
+    tabNavigation.navigate('Pix');
   }
 
   return (
     <>
-      <StatusBar style="auto" backgroundColor="#BA261A" />
+      <StatusBar style="light" backgroundColor="#0e0e0e" />
       <TopHeader height={insets.top} />
       <Pressable onPress={goStartup}>
         <Image
           source={require('@assets/pages/main/header.png')}
           resizeMode={Image.resizeMode.cover}
-          style={{ width: '100%', height: 48, backgroundColor: '#BA261A' }}
+          style={{ width: '100%', height: 51, backgroundColor: '#BA261A' }}
         />
       </Pressable>
       <Container bounces={false}>
-        <AccountAreaView>
+        <AccountAreaView source={require('@assets/pages/main/base_top.png')} resizeMode="cover">
           <AccountUserText>Olá, {getFirstName(ownerName)}</AccountUserText>
           <AccountNumberText>
             Ag {ownerAgency} Cc {addDashBeforeLast(ownerAccount)}

@@ -1,3 +1,4 @@
+import { ImageBackground } from 'react-native';
 import styled from 'styled-components/native';
 
 export const Container = styled.ScrollView`
@@ -7,9 +8,8 @@ export const TopHeader = styled.View<{ height: number }>`
   height: ${(props) => props.height}px;
   background-color: #ba261a;
 `;
-export const AccountAreaView = styled.View`
+export const AccountAreaView = styled(ImageBackground)`
   padding-top: 16px;
-  background-color: #ba261a;
   height: 135px;
 `;
 export const ScrollContainer = styled.View`

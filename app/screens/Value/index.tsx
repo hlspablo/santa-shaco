@@ -1,43 +1,17 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View, Text, KeyboardAvoidingView, Platform } from 'react-native';
-import Image from 'react-native-fast-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Feather';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 import {
-  AGText,
-  AddInfoText,
-  BalaceLabelText,
-  BalanceRowContainer,
-  BalanceValueText,
   BaseText,
-  BaseText2,
-  BaseText3,
   BaseTextContainer,
-  BookRowContainer,
-  BookText,
   BottomContainer,
-  CCText,
-  ClientNameText,
-  DividerPadding,
-  DotContainer,
   GrayText,
-  LogoRowContainer,
-  LogoTextContainer,
-  MiddleContainer,
   OuterContainer,
-  OuterSquareContainer,
-  PaymentContainer,
-  RoundRedRot,
-  RowContainer,
-  Square,
-  SquareBottomContainer,
-  SquareContainer,
-  SwitchContainer,
   TopHeader,
-  SectionTitle,
 } from './styles';
 
 import { ValueScreenNavigationProp } from '@/@types/navigation';
@@ -46,7 +20,7 @@ import Divider from '@/components/Divider';
 import Header from '@/components/Header';
 import { SantaInputMoneyBordered } from '@/components/SantaInputMoneyBordered';
 import { useSetup } from '@/store/hooks';
-import { addDashBeforeLast, detectAndMask, formatCurrency, maskCPF } from '@/utils/format';
+import { addDashBeforeLast, detectAndMask, maskCPF } from '@/utils/format';
 
 export const ValueScreen = function () {
   const [value, setValue] = React.useState(0);
@@ -59,7 +33,6 @@ export const ValueScreen = function () {
       clientPix,
       ownerAgency,
       ownerAccount,
-      balance,
       setTransferValue,
     },
   } = useSetup();

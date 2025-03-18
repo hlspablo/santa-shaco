@@ -61,7 +61,9 @@ export const ConfirmScreen = function () {
           <Text style={styles.sectionLabel}>
             Para <Text style={styles.boldText}>{clientName}</Text>
           </Text>
-          <Text style={styles.detailText}>CPF: {maskCPF(clientCPF)} - PICPAY</Text>
+          <Text style={styles.detailText}>
+            CPF: {maskCPF(clientCPF)} - {clientBank}
+          </Text>
           <Text style={styles.detailText}>Chave: {detectAndMask(clientPix)}</Text>
 
           <TouchableOpacity

@@ -12,9 +12,11 @@
 
 import './app/utils/ignoreWarnings';
 import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { Provider } from 'jotai/react';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import { View } from 'react-native';
 import { initialWindowMetrics, SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { AppNavigator, useNavigationPersistence } from './app/navigators';
@@ -22,17 +24,15 @@ import { StoreProvider } from './app/store';
 import { customFontsToLoad } from './app/theme';
 import * as storage from './app/utils/storage';
 
-export const NAVIGATION_PERSISTENCE_KEY = 'NAVIGATION_STATE';
+// Keep splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
 
-interface AppProps {
-  hideSplashScreen: () => Promise<void>;
-}
+export const NAVIGATION_PERSISTENCE_KEY = 'NAVIGATION_STATE';
 
 /**
  * This is the root component of our app.
  */
-function App(props: AppProps) {
-  const { hideSplashScreen } = props;
+function App() {
   const {
     initialNavigationState,
     onNavigationStateChange,
@@ -40,39 +40,53 @@ function App(props: AppProps) {
   } = useNavigationPersistence(storage, NAVIGATION_PERSISTENCE_KEY);
 
   const [areFontsLoaded] = useFonts(customFontsToLoad);
-  const [isReady, setIsReady] = useState(false);
+  const [appIsReady, setAppIsReady] = useState(false);
 
-  const onStoreInitialized = useCallback(() => {
-    // This runs after the store has been initialized.
-    // If your initialization scripts run very fast, it's good to show the splash screen for just a bit longer to prevent flicker.
-    // Slightly delaying splash screen hiding for better UX; can be customized or removed as needed,
-    // Note: (vanilla Android) The splash-screen will not appear if you launch your app via the terminal or Android Studio. Kill the app and launch it normally by tapping on the launcher icon. https://stackoverflow.com/a/69831106
-    // Note: (vanilla iOS) You might notice the splash-screen logo change size. This happens in debug/development mode. Try building the app for release.
-    setTimeout(hideSplashScreen, 500);
-    setIsReady(true);
-  }, [hideSplashScreen]);
+  useEffect(() => {
+    async function prepare() {
+      try {
+        // Keep splash screen visible while we fetch resources
+        await SplashScreen.preventAutoHideAsync();
+        // Pre-load fonts, make any API calls you need to do here
+        await Promise.all([
+          /* Add any other initialization here */
+        ]);
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setAppIsReady(true);
+      }
+    }
+
+    prepare();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady && areFontsLoaded && isNavigationStateRestored) {
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady, areFontsLoaded, isNavigationStateRestored]);
 
   // Before we show the app, we have to wait for our state to be ready.
-  // In the meantime, don't render anything. This will be the background
-  // color set in native by rootView's background color.
-  // In iOS: application:didFinishLaunchingWithOptions:
-  // In Android: https://stackoverflow.com/a/45838109/204044
-  // You can replace with your own loading component if you wish.
-  if (!isNavigationStateRestored || !areFontsLoaded) return null;
+  if (!isNavigationStateRestored || !areFontsLoaded || !appIsReady) {
+    return null;
+  }
 
   // otherwise, we're ready to render the app
   return (
-    <Provider>
-      <StoreProvider>
-        <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-          <StatusBar style="light" backgroundColor="#BA261A" />
-          <AppNavigator
-            initialState={initialNavigationState}
-            onStateChange={onNavigationStateChange}
-          />
-        </SafeAreaProvider>
-      </StoreProvider>
-    </Provider>
+    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+      <Provider>
+        <StoreProvider>
+          <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+            <StatusBar style="light" backgroundColor="#BA261A" />
+            <AppNavigator
+              initialState={initialNavigationState}
+              onStateChange={onNavigationStateChange}
+            />
+          </SafeAreaProvider>
+        </StoreProvider>
+      </Provider>
+    </View>
   );
 }
 

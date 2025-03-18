@@ -1145,7 +1145,7 @@
     base64-js "^1.2.3"
     xmlbuilder "^14.0.0"
 
-"@expo/prebuild-config@^8.0.29":
+"@expo/prebuild-config@^8.0.27", "@expo/prebuild-config@^8.0.29":
   version "8.0.29"
   resolved "https://registry.npmjs.org/@expo/prebuild-config/-/prebuild-config-8.0.29.tgz"
   integrity sha512-CoZBxUQLZpGwbnPREr2sFnObOn4j+Mp7AHxX6Rz5jhSSz2VifC1jMM4NFiXrZe6LZyjYNqBGRe3D8bAqdpVGkg==
@@ -3703,6 +3703,13 @@ expo-sharing@~13.0.1:
   version "13.0.1"
   resolved "https://registry.npmjs.org/expo-sharing/-/expo-sharing-13.0.1.tgz"
   integrity sha512-qych3Nw65wlFcnzE/gRrsdtvmdV0uF4U4qVMZBJYPG90vYyWh2QM9rp1gVu0KWOBc7N8CC2dSVYn4/BXqJy6Xw==
+
+expo-splash-screen@~0.29.22:
+  version "0.29.22"
+  resolved "https://registry.yarnpkg.com/expo-splash-screen/-/expo-splash-screen-0.29.22.tgz#fd75a19cbc2989e154c0293d8e782d3de03c3296"
+  integrity sha512-f+bPpF06bqiuW1Fbrd3nxeaSsmTVTBEKEYe3epYt4IE6y4Ulli3qEUamMLlRQiDGuIXPU6zQlscpy2mdBUI5cA==
+  dependencies:
+    "@expo/prebuild-config" "^8.0.27"
 
 expo-status-bar@~2.0.1:
   version "2.0.1"

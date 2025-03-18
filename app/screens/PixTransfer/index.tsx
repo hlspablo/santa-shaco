@@ -1,4 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
 import React, { useRef, useState, useEffect } from 'react';
 import {
   Pressable,
@@ -8,16 +9,12 @@ import {
   TouchableOpacity,
   StyleSheet,
   Keyboard,
-  Animated,
-  KeyboardAvoidingView,
   Platform,
-  InteractionManager,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Image from 'react-native-fast-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AntIcon from 'react-native-vector-icons/AntDesign';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {
   BaseText,
@@ -143,34 +140,6 @@ const applySmartMask = (value: string): string => {
   return cleaned;
 };
 
-// Function to check if input looks like a phone number
-const looksLikePhone = (value: string): boolean => {
-  // Remove non-numeric characters
-  const numbers = value.replace(/\D/g, '');
-
-  // If it's a valid CPF, it's not a phone - this check should always come first
-  if (numbers.length === 11 && isValidCPF(numbers)) {
-    return false;
-  }
-
-  // Brazilian phone numbers typically start with area code (2 digits)
-  // and have 8-9 digits after that
-  if (numbers.length === 10 || numbers.length === 11) {
-    // Check if it starts with a valid area code (10-99)
-    if (/^[1-9][0-9]/.test(numbers)) {
-      // For mobile numbers, the 3rd digit is typically 9
-      if (numbers.length === 11 && numbers.charAt(2) === '9') {
-        return true;
-      }
-      // For landlines or older mobile formats
-      if (numbers.length === 10) {
-        return true;
-      }
-    }
-  }
-  return false;
-};
-
 const formatCNPJ = (value: string): string => {
   // Remove non-numeric characters
   const numbers = value.replace(/\D/g, '');
@@ -215,9 +184,9 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
   const [isValidPixKey, setIsValidPixKey] = useState<boolean>(false);
   const labelRef = useRef<Animatable.Text>(null);
   const textInputRef = useRef<TextInput>(null);
-  const { setup } = useSetup();
   const navigation = useNavigation<any>();
   const insets = useSafeAreaInsets();
+  const { setup } = useSetup();
 
   // Monitor keyboard visibility
   useEffect(() => {
@@ -293,17 +262,6 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
     setSearchQuery(value);
   };
 
-  const handleContactPress = (contact: any) => {
-    setup.setSetupData({
-      ...setup,
-      clientName: contact.name,
-      clientPix: contact.id, // This would typically be the contact's PIX key
-      clientCPF: '12345678901', // Mock CPF
-      clientBank: 'Banco Santa',
-    });
-    navigation.navigate('ValueScreen');
-  };
-
   const handleContinue = () => {
     if (isValidPixKey) {
       // Setup data with the entered Pix key/info
@@ -313,19 +271,14 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
       setup.setSetupData({
         ...setup,
         clientPix: rawValue,
-        clientBank: 'Banco Santa',
       });
-      navigation.navigate('ValueScreen');
     }
-  };
 
-  const handleSeeAllContacts = () => {
-    // Navigate to a full contacts screen if needed
-    // navigation.navigate('AllContactsScreen');
+    navigation.navigate('ValueScreen');
   };
 
   const renderContactItem = ({ item }: { item: any }) => (
-    <ContactItem onPress={() => handleContactPress(item)}>
+    <ContactItem>
       <CircleAvatar>
         <InitialsText>{item.initials}</InitialsText>
       </CircleAvatar>
@@ -346,8 +299,14 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
     // navigation.navigate('QRCodeScreen');
   };
 
+  const handleSeeAllContacts = () => {
+    // Navigate to a full contacts screen if needed
+    // navigation.navigate('AllContactsScreen');
+  };
+
   return (
     <View style={styles.container}>
+      <StatusBar style="light" backgroundColor="#BA261A" />
       <TopHeader height={insets.top} />
       <Header title="Pix" onPress={navigation.goBack} showBack={false} />
 
