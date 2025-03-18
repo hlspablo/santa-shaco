@@ -1,5 +1,4 @@
 import { useNavigation } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
 import React, { useRef, useState, useEffect } from 'react';
 import {
   Pressable,
@@ -10,6 +9,7 @@ import {
   StyleSheet,
   Keyboard,
   Platform,
+  StatusBar,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Image from 'react-native-fast-image';
@@ -306,7 +306,6 @@ export const PixTransferScreen: React.FC<PixTransferProps> = () => {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="light" backgroundColor="#BA261A" />
       <TopHeader height={insets.top} />
       <Header title="Pix" onPress={navigation.goBack} showBack={false} />
 

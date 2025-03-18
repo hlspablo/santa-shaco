@@ -5,9 +5,8 @@ import {
   BottomTabNavigationProp,
 } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Pressable, StyleSheet, View, Text, Animated, Dimensions } from 'react-native';
+import { Pressable, StyleSheet, View, Text, Animated, Dimensions, StatusBar } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Image from 'react-native-fast-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -69,7 +68,6 @@ const HomeScreen = function HomeScreen() {
 
   return (
     <>
-      <StatusBar style="light" backgroundColor="#0e0e0e" />
       <TopHeader height={insets.top} />
       <Pressable onPress={goStartup}>
         <Image
@@ -295,18 +293,40 @@ function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
 }
 
 export const MainScreen = function () {
+  const [activeTab, setActiveTab] = React.useState<'Home' | 'Pix' | 'Atendimento' | 'Menu'>('Home');
+
+  // Status bar colors for each tab
+  const statusBarColors = {
+    Home: '#0e0e0e',
+    Pix: '#BA261A',
+    Atendimento: '#0e0e0e',
+    Menu: '#0e0e0e',
+  };
+
   return (
-    <Tab.Navigator
-      tabBar={(props) => <CustomTabBar {...props} />}
-      screenOptions={{
-        headerShown: false,
-        lazy: false,
-      }}>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Pix" component={PixScreen} />
-      <Tab.Screen name="Atendimento" component={AtendimentoScreen} />
-      <Tab.Screen name="Menu" component={MenuScreen} />
-    </Tab.Navigator>
+    <>
+      <StatusBar backgroundColor={statusBarColors[activeTab]} barStyle="light-content" />
+      <Tab.Navigator
+        tabBar={(props) => <CustomTabBar {...props} />}
+        screenOptions={{
+          headerShown: false,
+          lazy: false,
+        }}
+        screenListeners={{
+          state: (e) => {
+            const routes = e.data.state?.routes;
+            const index = e.data.state?.index || 0;
+            if (routes && routes[index]) {
+              setActiveTab(routes[index].name as 'Home' | 'Pix' | 'Atendimento' | 'Menu');
+            }
+          },
+        }}>
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Pix" component={PixScreen} />
+        <Tab.Screen name="Atendimento" component={AtendimentoScreen} />
+        <Tab.Screen name="Menu" component={MenuScreen} />
+      </Tab.Navigator>
+    </>
   );
 };
 

@@ -78,7 +78,6 @@ function App() {
       <Provider>
         <StoreProvider>
           <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-            <StatusBar style="light" backgroundColor="#BA261A" />
             <AppNavigator
               initialState={initialNavigationState}
               onStateChange={onNavigationStateChange}
